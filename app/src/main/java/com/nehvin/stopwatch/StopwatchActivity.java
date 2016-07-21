@@ -10,6 +10,7 @@ public class StopwatchActivity extends Activity {
 
     private int seconds=0;
     private boolean running=false;
+    private boolean wasRunning = running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,49 +20,55 @@ public class StopwatchActivity extends Activity {
         {
             seconds = savedInstanceState.getInt("seconds");
             running = savedInstanceState.getBoolean("running");
+            wasRunning = savedInstanceState.getBoolean("wasRunning");
         }
+        System.out.println("exiting onCreate");
         runTimer();
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
+        super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("seconds",seconds);
         savedInstanceState.putBoolean("running", running);
+        savedInstanceState.putBoolean("wasRunning", wasRunning);
+        System.out.println("exiting onSavedInstanceState");
     }
+
 //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_stopwatch, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
+//    public void onStart()
+//    {
+//        super.onStart();
+//        if(wasRunning)
+//            running = true;
+//        System.out.println("exiting onStart");
 //    }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if(wasRunning)
+            running = true;
+
+    }
+//    @Override
+//    public void onStop()
+//    {
+//        super.onStop();
+//        wasRunning = running;
+//        running = false;
+//        System.out.println("exiting onStop");
+//    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        wasRunning = running;
+        running = false;
+    }
     //start the stopwatch when the start button is clicked
     public void onClickStart ( View view )
     {

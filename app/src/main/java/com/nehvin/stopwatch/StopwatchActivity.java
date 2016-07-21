@@ -1,17 +1,12 @@
 package com.nehvin.stopwatch;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-public class StopwatchActivity extends AppCompatActivity {
+public class StopwatchActivity extends Activity {
 
     private int seconds=0;
     private boolean running=false;
@@ -20,6 +15,11 @@ public class StopwatchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stopwatch);
+        if (savedInstanceState != null)
+        {
+            seconds = savedInstanceState.getInt("seconds");
+            running = savedInstanceState.getBoolean("running");
+        }
         runTimer();
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -34,6 +34,12 @@ public class StopwatchActivity extends AppCompatActivity {
 //        });
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        savedInstanceState.putInt("seconds",seconds);
+        savedInstanceState.putBoolean("running", running);
+    }
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
